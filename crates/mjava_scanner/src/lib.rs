@@ -18,7 +18,5 @@ pub enum Token {
  */
 #[derive(Debug)]
 pub struct TokenError {
-   pub value: String,
+    pub value: String,
 }
-
-
