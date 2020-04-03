@@ -82,7 +82,7 @@ fn token_to_result(token: &String) -> Result<Token, TokenError> {
 fn is_reserved_word(token: &String) -> bool {
     let token_clone = token.clone();
     match &*token_clone {
-        "class" | "public" | "static" | "void" | "main" | "String" | "extends" | "int" => true,
+        "class" | "public" | "static" | "void" | "main" | "String" | "extends" | "return"|"int" => true,
         "boolean" | "if" | "else" | "while" | "length" | "true" | "false" | "this" | "new" => true,
         _ => false,
     }

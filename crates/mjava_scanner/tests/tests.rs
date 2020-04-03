@@ -14,10 +14,10 @@ mod tests {
 
         let result: String = answer.iter().fold(String::new(), |acc, x| match x {
             Ok(o) => match o {
-                Token::Identifier(id) => format!("{} Identifier({}) ", acc, id),
-                Token::IntegerLitera(int) => format!("{} IntergerLitera({}) ", acc, int),
-                Token::ReservedWord(rw) => format!("{} ReservedWord({}) ", acc, rw),
-                Token::Symbol(sy) => format!("{} Symbol({}) ", acc, sy),
+                Token::Identifier(id) => format!("{} Identifier({})\n", acc, id),
+                Token::IntegerLitera(int) => format!("{} IntergerLitera({})\n", acc, int),
+                Token::ReservedWord(rw) => format!("{} ReservedWord({})\n", acc, rw),
+                Token::Symbol(sy) => format!("{} Symbol({})\n", acc, sy),
             },
             Err(e) => format!("{} ErrorToken({}) ", acc, e.value),
         });
