@@ -59,8 +59,8 @@ mod tests {
                 Err(e) => {
                     let kind = &e.kind;
                     match kind {
-                        UNKNOWN(s) => format!("UNKNOWN_ERROR : {},line {}", s, line),
-                        KROWN_ID(s) => format!("KROWN_ID: {},line: {}", s, line),
+                        UNKNOWN(s) => format!("line {} :unknown character `{}`", line,s),
+                        WRONG_ID(s) => format!("line {} :wrong ID{}", line, s),
                         _ => "".to_string(),
                     }
                 }
