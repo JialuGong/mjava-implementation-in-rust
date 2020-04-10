@@ -1,0 +1,663 @@
+KEYWORD: class
+
+IDENTIFIER: WhatHappen
+
+SYMBOL: {
+
+
+KEYWORD: public
+
+KEYWORD: static
+
+KEYWORD: void
+
+KEYWORD: main
+SYMBOL: (
+KEYWORD: String
+SYMBOL: [
+SYMBOL: ]
+
+IDENTIFIER: args
+SYMBOL: )
+
+SYMBOL: {
+
+
+IDENTIFIER: MyClient
+
+IDENTIFIER: mc
+SYMBOL: ;
+
+
+KEYWORD: int
+
+IDENTIFIER: handle
+SYMBOL: ;
+
+
+
+IDENTIFIER: mc
+
+SYMBOL: =
+
+KEYWORD: new
+
+IDENTIFIER: MyClient
+SYMBOL: (
+SYMBOL: )
+SYMBOL: ;
+
+
+KEYWORD: while
+SYMBOL: (
+SYMBOL: !
+KEYWORD: false
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: handle
+
+SYMBOL: =
+
+IDENTIFIER: mc
+SYMBOL : .
+IDENTIFIER: start
+SYMBOL: (
+INTERGER: 10
+SYMBOL: ,
+
+INTERGER: 10
+SYMBOL: )
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+SYMBOL: }
+
+SYMBOL: }
+
+
+KEYWORD: class
+
+IDENTIFIER: Client
+
+SYMBOL: {
+
+
+KEYWORD: int
+
+IDENTIFIER: in
+SYMBOL: ;
+
+
+KEYWORD: int
+
+IDENTIFIER: out
+SYMBOL: ;
+
+
+KEYWORD: int
+SYMBOL: [
+SYMBOL: ]
+
+IDENTIFIER: messagelist
+SYMBOL: ;
+
+
+KEYWORD: int
+
+IDENTIFIER: index
+SYMBOL: ;
+
+
+KEYWORD: public
+
+KEYWORD: boolean
+
+IDENTIFIER: init
+SYMBOL: (
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: index
+
+SYMBOL: =
+
+INTERGER: 0
+SYMBOL: ;
+
+
+IDENTIFIER: messagelist
+
+SYMBOL: =
+
+KEYWORD: new
+
+KEYWORD: int
+SYMBOL: [
+INTERGER: 10
+SYMBOL: ]
+SYMBOL: ;
+
+
+IDENTIFIER: in
+
+SYMBOL: =
+
+INTERGER: 0
+SYMBOL: ;
+
+
+IDENTIFIER: out
+
+SYMBOL: =
+
+INTERGER: 0
+SYMBOL: ;
+
+
+KEYWORD: return
+
+KEYWORD: true
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: public
+
+KEYWORD: int
+
+IDENTIFIER: run
+SYMBOL: (
+KEYWORD: int
+
+IDENTIFIER: host
+SYMBOL: ,
+
+KEYWORD: int
+
+IDENTIFIER: port
+SYMBOL: )
+SYMBOL: {
+
+
+KEYWORD: int
+
+IDENTIFIER: handle
+SYMBOL: ;
+
+
+IDENTIFIER: handle
+
+SYMBOL: =
+
+KEYWORD: this
+SYMBOL : .
+IDENTIFIER: Juggling
+SYMBOL: (
+SYMBOL: )
+SYMBOL: ;
+
+
+
+SYMBOL: }
+
+
+
+
+KEYWORD: public
+
+KEYWORD: int
+
+IDENTIFIER: getMsg
+SYMBOL: (
+SYMBOL: )
+SYMBOL: {
+
+
+KEYWORD: int
+
+IDENTIFIER: tmp
+SYMBOL: ;
+
+
+
+IDENTIFIER: tmp
+
+SYMBOL: =
+
+IDENTIFIER: messagelist
+SYMBOL : .
+KEYWORD: length
+SYMBOL: ;
+
+
+KEYWORD: if
+SYMBOL: (
+KEYWORD: this
+SYMBOL : .
+IDENTIFIER: isVoid
+SYMBOL: (
+SYMBOL: )
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: tmp
+
+SYMBOL: =
+
+IDENTIFIER: tmp
+
+SYMBOL: -
+
+INTERGER: 1
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: else
+SYMBOL: {
+
+
+IDENTIFIER: tmp
+
+SYMBOL: =
+
+IDENTIFIER: tmp
+
+SYMBOL: *
+
+INTERGER: 2
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: if
+SYMBOL: (
+IDENTIFIER: index
+
+SYMBOL: <
+
+INTERGER: 10
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: messagelist
+SYMBOL: [
+IDENTIFIER: index
+SYMBOL: ]
+
+SYMBOL: =
+
+IDENTIFIER: tmp
+SYMBOL: ;
+
+
+IDENTIFIER: index
+
+SYMBOL: =
+
+IDENTIFIER: index
+
+SYMBOL: +
+
+INTERGER: 1
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: else
+SYMBOL: {
+
+
+IDENTIFIER: index
+
+SYMBOL: =
+
+INTERGER: 0
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: return
+
+IDENTIFIER: tmp
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+
+KEYWORD: public
+
+KEYWORD: boolean
+
+IDENTIFIER: isVoid
+SYMBOL: (
+SYMBOL: )
+SYMBOL: {
+
+
+KEYWORD: boolean
+
+IDENTIFIER: flag
+SYMBOL: ;
+
+
+KEYWORD: if
+SYMBOL: (
+IDENTIFIER: messagelist
+SYMBOL : .
+KEYWORD: length
+
+UNKNOWN_ERROR : >,line 52
+
+INTERGER: 0
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: flag
+
+SYMBOL: =
+
+KEYWORD: false
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: else
+SYMBOL: {
+
+
+IDENTIFIER: flag
+
+SYMBOL: =
+
+KEYWORD: true
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: return
+
+IDENTIFIER: flag
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+
+KEYWORD: public
+
+KEYWORD: int
+
+IDENTIFIER: Juggling
+SYMBOL: (
+SYMBOL: )
+SYMBOL: {
+
+
+KEYWORD: boolean
+
+IDENTIFIER: t
+SYMBOL: ;
+
+
+KEYWORD: int
+
+IDENTIFIER: tmp1
+SYMBOL: ;
+
+
+KEYWORD: int
+
+IDENTIFIER: tmp2
+SYMBOL: ;
+
+
+KEYWORD: int
+
+IDENTIFIER: tmp3
+SYMBOL: ;
+
+
+IDENTIFIER: tmp1
+
+SYMBOL: =
+
+INTERGER: 2
+SYMBOL: ;
+
+
+IDENTIFIER: tmp2
+
+SYMBOL: =
+
+INTERGER: 3
+SYMBOL: ;
+
+
+IDENTIFIER: tmp3
+
+SYMBOL: =
+
+INTERGER: 4
+SYMBOL: ;
+
+
+KEYWORD: while
+SYMBOL: (
+SYMBOL: (
+IDENTIFIER: tmp2
+
+SYMBOL: <
+
+IDENTIFIER: tmp3
+SYMBOL: )
+SYMBOL: &&
+SYMBOL: (
+IDENTIFIER: tmp1
+SYMBOL: <
+IDENTIFIER: tmp2
+SYMBOL: )
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: tmp1
+
+SYMBOL: =
+
+IDENTIFIER: tmp3
+
+SYMBOL: -
+
+IDENTIFIER: tmp2
+SYMBOL: ;
+
+
+IDENTIFIER: tmp2
+
+SYMBOL: =
+
+IDENTIFIER: tmp2
+
+SYMBOL: -
+
+IDENTIFIER: tmp1
+SYMBOL: ;
+
+
+IDENTIFIER: tmp3
+
+SYMBOL: =
+
+IDENTIFIER: tmp2
+
+SYMBOL: *
+
+IDENTIFIER: tmp1
+SYMBOL: ;
+
+
+IDENTIFIER: t
+
+SYMBOL: =
+
+KEYWORD: this
+SYMBOL : .
+IDENTIFIER: HolyLight
+SYMBOL: (
+SYMBOL: )
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+KEYWORD: return
+
+SYMBOL: (
+IDENTIFIER: tmp1
+SYMBOL: *
+IDENTIFIER: tmp2
+SYMBOL: +
+IDENTIFIER: tmp3
+SYMBOL: )
+SYMBOL: *
+IDENTIFIER: messagelist
+SYMBOL : .
+KEYWORD: length
+SYMBOL: ;
+
+
+SYMBOL: }
+
+
+
+
+KEYWORD: public
+
+KEYWORD: boolean
+
+IDENTIFIER: HolyLight
+SYMBOL: (
+SYMBOL: )
+SYMBOL: {
+
+
+IDENTIFIER: in
+
+SYMBOL: =
+
+IDENTIFIER: in
+
+SYMBOL: +
+
+INTERGER: 1
+SYMBOL: ;
+
+
+INTERGER: 0
+IDENTIFIER: out
+
+SYMBOL: =
+
+IDENTIFIER: out
+
+SYMBOL: -
+
+INTERGER: 1
+SYMBOL: ;
+
+
+KEYWORD: System.out.println
+SYMBOL: (
+KEYWORD: false
+SYMBOL: )
+SYMBOL: ;
+
+
+SYMBOL: }
+
+SYMBOL: }
+
+
+KEYWORD: class
+
+IDENTIFIER: MyClient
+
+IDENTIFIER: extend
+
+IDENTIFIER: Client
+SYMBOL: {
+
+
+
+KEYWORD: public
+
+KEYWORD: int
+
+IDENTIFIER: start
+SYMBOL: (
+KEYWORD: int
+
+IDENTIFIER: host
+SYMBOL: ,
+
+KEYWORD: int
+
+IDENTIFIER: port
+SYMBOL: )
+SYMBOL: {
+
+
+KEYWORD: int
+
+IDENTIFIER: handle
+SYMBOL: ;
+
+
+IDENTIFIER: handle
+
+SYMBOL: =
+
+KEYWORD: this
+SYMBOL : .
+IDENTIFIER: run
+SYMBOL: (
+SYMBOL: )
+
+
+KEYWORD: return
+
+IDENTIFIER: handle
+SYMBOL: ;
+
+
+SYMBOL: }
+
+SYMBOL: }

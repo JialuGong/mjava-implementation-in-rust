@@ -19,19 +19,17 @@ pub struct Cursor<'a> {
     input: Chars<'a>,
     prev: char,
     initital_len: usize,
-    line:usize,
 }
 pub const EOF_CHAR: char = '\0';
 
 impl<'a> Cursor<'a> {
     ///create a `Scanner`
-    pub fn new(init_input: &'a str) -> Cursor {
+    pub fn new(init_input: &'a str)-> Cursor {
         Cursor {
             input: init_input.chars(),
             #[cfg(debug_assertions)]
             prev: EOF_CHAR,
-            initital_len: init_input.len(),
-            line:1,
+            initital_len: init_input.len(),    
         }
     }
 
@@ -72,11 +70,5 @@ impl<'a> Cursor<'a> {
     }
     pub fn consum(&self) -> usize {
         self.initital_len - self.input.as_str().len()
-    }
-    pub fn line_plus(&mut self){
-        self.line+=1;
-    }
-    pub fn line(&self)->usize{
-        self.line
     }
 }
