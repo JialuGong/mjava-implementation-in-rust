@@ -67,7 +67,7 @@ pub enum TokenKind {
     INTER(String),
     BLANK_BLOCK,
     UNKNOWN(String),
-    KROWN_ID(String),
+    WRONG_ID(String),
 }
 
 use crate::cursor::{Cursor, EOF_CHAR};
@@ -151,7 +151,7 @@ impl Cursor<'_> {
         };
         //TODO SOLVE LINE PROBLEM
         match &kind {
-            UNKNOWN(_s)|KROWN_ID(_s) => Err(TokenError::new(self.consum(),kind)),
+            UNKNOWN(_s)|WRONG_ID(_s) => Err(TokenError::new(self.consum(),kind)),
             _ => Ok(Token::new(kind, self.consum())),
         }
     }
@@ -205,7 +205,7 @@ impl Cursor<'_> {
             }
         }
         if id_str.ends_with("_") {
-            KROWN_ID(id_str)
+            WRONG_ID(id_str)
         } else {
             self.keyword_block(&id_str)
         }

@@ -367,7 +367,7 @@ IDENTIFIER: messagelist
 SYMBOL : .
 KEYWORD: length
 
-UNKNOWN_ERROR : >,line 52
+line 52 :unknown character `>`
 
 INTERGER: 0
 SYMBOL: )

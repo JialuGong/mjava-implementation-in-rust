@@ -53,8 +53,8 @@ SYMBOL: (
 SYMBOL: !
 KEYWORD: false
 
-UNKNOWN_ERROR : |,line 7
-UNKNOWN_ERROR : |,line 7
+line 7 :unknown character `|`
+line 7 :unknown character `|`
 
 KEYWORD: true
 SYMBOL: )
@@ -372,7 +372,7 @@ IDENTIFIER: messagelist
 SYMBOL : .
 KEYWORD: length
 
-UNKNOWN_ERROR : >,line 52
+line 52 :unknown character `>`
 
 INTERGER: 0
 SYMBOL: )

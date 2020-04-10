@@ -123,7 +123,7 @@ SYMBOL: )
 SYMBOL: {
 
 
-UNKNOWN_ERROR : _,line 19
+line 19 :unknown character `_`
 IDENTIFIER: index
 
 SYMBOL: =
@@ -368,7 +368,7 @@ IDENTIFIER: messagelist
 SYMBOL : .
 KEYWORD: length
 
-UNKNOWN_ERROR : >,line 52
+line 52 :unknown character `>`
 
 INTERGER: 0
 SYMBOL: )
@@ -478,7 +478,7 @@ SYMBOL: <
 
 IDENTIFIER: tmp3
 SYMBOL: )
-UNKNOWN_ERROR : &,line 69
+line 69 :unknown character `&`
 SYMBOL: (
 IDENTIFIER: tmp1
 SYMBOL: <
