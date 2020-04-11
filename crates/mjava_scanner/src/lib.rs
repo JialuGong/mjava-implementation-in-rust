@@ -149,7 +149,7 @@ impl Cursor<'_> {
             },
             _ => UNKNOWN(first_char.to_string()),
         };
-        //TODO SOLVE LINE PROBLEM
+        
         match &kind {
             UNKNOWN(_s)|WRONG_ID(_s) => Err(TokenError::new(self.consum(),kind)),
             _ => Ok(Token::new(kind, self.consum())),
@@ -157,11 +157,8 @@ impl Cursor<'_> {
     }
 
     fn blank_block(&mut self) -> TokenKind {
-        if self.prev()=='\n' {}
         loop {
             if self.is_black_continue(self.first_char()) {
-                if self.first_char()=='\n'{
-                }
                 self.next_char();
             } else {
                 break;
@@ -175,7 +172,7 @@ impl Cursor<'_> {
         let mut new_string = String::new();
         for i in 0.. {
             let ch = self.nth_char(i);
-            if self.is_system_continue(ch) {
+            if self.is_system_continue(ch,i) {
                 new_string.push(ch)
             } else {
                 break;
@@ -188,7 +185,6 @@ impl Cursor<'_> {
             }
             SYSTEM_KW
         } else {
-            println!("==============String may be");
             self.id_block()
         }
     }
@@ -262,11 +258,13 @@ impl Cursor<'_> {
             _ => false,
         }
     }
-    fn is_system_continue(&self, c: char) -> bool {
+    fn is_system_continue(&self, c: char,i:usize) -> bool {
         match c {
             'A'..='z' => true,
-            '.' => true,
-            '0'..='9'=>true,
+            '.' => match i{
+                i if i>=17=>false,
+                _=>true
+            },
             _ => false,
         }
     }

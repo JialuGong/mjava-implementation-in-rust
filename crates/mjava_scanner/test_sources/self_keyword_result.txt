@@ -1,0 +1,44 @@
+KEYWORD: SYSTEM_KW `System.out.println`
+
+KEYWORD: CLASS_KW `class`
+
+IDENTIFIER: `kif`
+
+INTERGER: `1`
+KEYWORD: THIS_KW `this`
+
+KEYWORD: STRING_KW `String`
+
+IDENTIFIER: `Set`
+
+IDENTIFIER: `classvoid`
+
+KEYWORD: SYSTEM_KW `System.out.println`
+SYMBOL : DOT `.`
+IDENTIFIER: `out`
+
+IDENTIFIER: `System`
+SYMBOL : DOT `.`
+IDENTIFIER: `in`
+SYMBOL : DOT `.`
+IDENTIFIER: `print`
+
+IDENTIFIER: `System`
+SYMBOL : DOT `.`
+KEYWORD: SYSTEM_KW `System.out.println`
+SYMBOL : DOT `.`
+IDENTIFIER: `System`
+
+IDENTIFIER: `System`
+SYMBOL : DOT `.`
+IDENTIFIER: `out`
+SYMBOL : DOT `.`
+IDENTIFIER: `printlnkkkk`
+SYMBOL : DOT `.`
+IDENTIFIER: `System`
+
+IDENTIFIER: `S1stem`
+SYMBOL : DOT `.`
+IDENTIFIER: `out`
+SYMBOL : DOT `.`
+IDENTIFIER: `println`
