@@ -5,7 +5,8 @@ mod tests {
     use std::fs;
     fn print_answer(test_path: &str, result_path: &str) {
         let mut line: usize = 1;
-        let content = fs::read_to_string(test_path).expect(&*format!("Open {} file failed!",test_path));
+        let content =
+            fs::read_to_string(test_path).expect(&*format!("Open {} file failed!", test_path));
         let answer = mjava_scanner::get_tokens(&*content)
             .iter()
             .map(|x| match x {
@@ -59,34 +60,34 @@ mod tests {
                 Err(e) => {
                     let kind = &e.kind;
                     match kind {
-                        UNKNOWN(s) => format!("line {} :unknown character `{}`", line,s),
+                        UNKNOWN(s) => format!("line {} :unknown character `{}`", line, s),
                         WRONG_ID(s) => format!("line {} :wrong ID `{}`", line, s),
                         _ => "".to_string(),
                     }
                 }
             })
+            .filter(|x| !x.is_empty())
             .collect::<Vec<String>>()
             .join("\n");
+
         fs::write(result_path, answer).expect("Some thing wrong when write the file!");
     }
 
     #[test]
     fn it_works() {
-        let root=env!("CARGO_MANIFEST_DIR");
-        for i in 1..8{
-            let test_path=format!("{}/test_sources/test{}.txt",root,i);
-            let result_path=format!("{}/test_sources/result{}.txt",root,i);
-            print_answer(&*test_path,&*result_path);
+        let root = env!("CARGO_MANIFEST_DIR");
+        for i in 1..8 {
+            let test_path = format!("{}/test_sources/test{}.txt", root, i);
+            let result_path = format!("{}/test_sources/tokenOut{}.txt", root, i);
+            print_answer(&*test_path, &*result_path);
         }
 
         //self test
-        let self_list=["keyword","ident","int","symbol"];
-        for i in self_list.iter(){
-            let test_path=format!("{}/test_sources/self_{}_test.txt",root,i);
-            let result_path=format!("{}/test_sources/self_{}_result.txt",root,i);
+        let self_list = ["keyword", "ident", "int", "symbol"];
+        for i in self_list.iter() {
+            let test_path = format!("{}/test_sources/self_{}_test.txt", root, i);
+            let result_path = format!("{}/test_sources/self_{}_token_out.txt", root, i);
             print_answer(&*test_path, &*result_path);
         }
-        
-       
     }
 }

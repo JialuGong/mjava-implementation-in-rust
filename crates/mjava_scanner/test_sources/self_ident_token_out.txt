@@ -1,17 +1,12 @@
 line 1 :unknown character `_`
 IDENTIFIER: `id`
-
 IDENTIFIER: `index_index`
 SYMBOL: L_ANGLE `<`
-
 line 3 :wrong ID `index_`
-
 INTERGER: `1`
 IDENTIFIER: `flow1`
-
 INTERGER: `1`
 line 5 :unknown character `_`
 INTERGER: `1`
 IDENTIFIER: `a`
-
 IDENTIFIER: `a_1`

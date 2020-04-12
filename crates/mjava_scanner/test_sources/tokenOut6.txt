@@ -1,244 +1,135 @@
 KEYWORD: CLASS_KW `class`
-
 IDENTIFIER: `WhatHappen`
-
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: STATIC_KW `static`
-
 KEYWORD: VOID_KW `void`
-
 KEYWORD: MAIN_KW `main`
 SYMBOL: L_PAREN `(`
 KEYWORD: STRING_KW `String`
 SYMBOL: L_BRACK `[`
 SYMBOL: R_BRACK `]`
-
 IDENTIFIER: `args`
 SYMBOL: R_PAREN`)`
-
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `MyClient`
-
 IDENTIFIER: `mc`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `handle`
 SYMBOL: SEMI `;`
-
-
-
 IDENTIFIER: `mc`
-
 SYMBOL: EQ `=`
-
 KEYWORD: NEW_KW `new`
-
 IDENTIFIER: `MyClient`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: WHILE_KW `while`
 SYMBOL: L_PAREN `(`
 SYMBOL: EXCL `!`
 KEYWORD: FALSE_KW `false`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `handle`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `mc`
 SYMBOL : DOT `.`
 IDENTIFIER: `start`
 SYMBOL: L_PAREN `(`
 INTERGER: `10`
 SYMBOL: COMMA `,`
-
 INTERGER: `10`
 SYMBOL: R_PAREN`)`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 SYMBOL: R_CURLY `}`
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: CLASS_KW `class`
-
 IDENTIFIER: `Client`
-
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `in`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `out`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
 SYMBOL: L_BRACK `[`
 SYMBOL: R_BRACK `]`
-
 IDENTIFIER: `messagelist`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `index`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: BOOLEAN_KW `boolean`
-
 IDENTIFIER: `init`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
-line 19 :unknown character `_`
 IDENTIFIER: `index`
-
 SYMBOL: EQ `=`
-
 INTERGER: `0`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `messagelist`
-
 SYMBOL: EQ `=`
-
 KEYWORD: NEW_KW `new`
-
 KEYWORD: INT_KW `int`
 SYMBOL: L_BRACK `[`
 INTERGER: `10`
 SYMBOL: R_BRACK `]`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `in`
-
 SYMBOL: EQ `=`
-
 INTERGER: `0`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `out`
-
 SYMBOL: EQ `=`
-
 INTERGER: `0`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: RETRUN_KW `return`
-
 KEYWORD: TRUE_KW `true`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `run`
 SYMBOL: L_PAREN `(`
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `host`
 SYMBOL: COMMA `,`
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `port`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `handle`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `handle`
-
 SYMBOL: EQ `=`
-
 KEYWORD: THIS_KW `this`
 SYMBOL : DOT `.`
 IDENTIFIER: `Juggling`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: SEMI `;`
-
-
-
 SYMBOL: R_CURLY `}`
-
-
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `getMsg`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `tmp`
 SYMBOL: SEMI `;`
-
-
-
 IDENTIFIER: `tmp`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `messagelist`
 SYMBOL : DOT `.`
 KEYWORD: LENGTH_KW `length`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: IF_KW `if`
 SYMBOL: L_PAREN `(`
 KEYWORD: THIS_KW `this`
@@ -248,237 +139,126 @@ SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `tmp`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `tmp`
-
 SYMBOL: MINUS `-`
-
 INTERGER: `1`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: ELSE_KW `else`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `tmp`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `tmp`
-
 SYMBOL: STAR `*`
-
 INTERGER: `2`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: IF_KW `if`
 SYMBOL: L_PAREN `(`
 IDENTIFIER: `index`
-
 SYMBOL: L_ANGLE `<`
-
 INTERGER: `10`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `messagelist`
 SYMBOL: L_BRACK `[`
 IDENTIFIER: `index`
 SYMBOL: R_BRACK `]`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `tmp`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `index`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `index`
-
 SYMBOL: PLUS `+`
-
 INTERGER: `1`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: ELSE_KW `else`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `index`
-
 SYMBOL: EQ `=`
-
 INTERGER: `0`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: RETRUN_KW `return`
-
 IDENTIFIER: `tmp`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: BOOLEAN_KW `boolean`
-
 IDENTIFIER: `isVoid`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: BOOLEAN_KW `boolean`
-
 IDENTIFIER: `flag`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: IF_KW `if`
 SYMBOL: L_PAREN `(`
 IDENTIFIER: `messagelist`
 SYMBOL : DOT `.`
 KEYWORD: LENGTH_KW `length`
-
 line 52 :unknown character `>`
-
 INTERGER: `0`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `flag`
-
 SYMBOL: EQ `=`
-
 KEYWORD: FALSE_KW `false`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: ELSE_KW `else`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `flag`
-
 SYMBOL: EQ `=`
-
 KEYWORD: TRUE_KW `true`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: RETRUN_KW `return`
-
 IDENTIFIER: `flag`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `Juggling`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: BOOLEAN_KW `boolean`
-
 IDENTIFIER: `t`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `tmp1`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `tmp2`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `tmp3`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `tmp1`
-
 SYMBOL: EQ `=`
-
 INTERGER: `2`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `tmp2`
-
 SYMBOL: EQ `=`
-
 INTERGER: `3`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `tmp3`
-
 SYMBOL: EQ `=`
-
 INTERGER: `4`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: WHILE_KW `while`
 SYMBOL: L_PAREN `(`
 SYMBOL: L_PAREN `(`
 IDENTIFIER: `tmp2`
-
 SYMBOL: L_ANGLE `<`
-
 IDENTIFIER: `tmp3`
 SYMBOL: R_PAREN`)`
-line 69 :unknown character `&`
+SYMBOL: AMP `&&`
 SYMBOL: L_PAREN `(`
 IDENTIFIER: `tmp1`
 SYMBOL: L_ANGLE `<`
@@ -486,61 +266,34 @@ IDENTIFIER: `tmp2`
 SYMBOL: R_PAREN`)`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `tmp1`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `tmp3`
-
 SYMBOL: MINUS `-`
-
 IDENTIFIER: `tmp2`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `tmp2`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `tmp2`
-
 SYMBOL: MINUS `-`
-
 IDENTIFIER: `tmp1`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `tmp3`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `tmp2`
-
 SYMBOL: STAR `*`
-
 IDENTIFIER: `tmp1`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `t`
-
 SYMBOL: EQ `=`
-
 KEYWORD: THIS_KW `this`
 SYMBOL : DOT `.`
 IDENTIFIER: `HolyLight`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: RETRUN_KW `return`
-
 SYMBOL: L_PAREN `(`
 IDENTIFIER: `tmp1`
 SYMBOL: STAR `*`
@@ -553,111 +306,60 @@ IDENTIFIER: `messagelist`
 SYMBOL : DOT `.`
 KEYWORD: LENGTH_KW `length`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
-
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: BOOLEAN_KW `boolean`
-
 IDENTIFIER: `HolyLight`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 IDENTIFIER: `in`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `in`
-
 SYMBOL: PLUS `+`
-
 INTERGER: `1`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `out`
-
 SYMBOL: EQ `=`
-
 IDENTIFIER: `out`
-
 SYMBOL: MINUS `-`
-
 INTERGER: `1`
 SYMBOL: SEMI `;`
-
-
 KEYWORD: SYSTEM_KW `System.out.println`
 SYMBOL: L_PAREN `(`
 KEYWORD: FALSE_KW `false`
 SYMBOL: R_PAREN`)`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
 SYMBOL: R_CURLY `}`
-
-
 KEYWORD: CLASS_KW `class`
-
 IDENTIFIER: `MyClient`
-
 IDENTIFIER: `extend`
-
 IDENTIFIER: `Client`
 SYMBOL: L_CURLY `{`
-
-
-
 KEYWORD: PUBLIC_KW `public`
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `start`
 SYMBOL: L_PAREN `(`
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `host`
 SYMBOL: COMMA `,`
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `port`
 SYMBOL: R_PAREN`)`
 SYMBOL: L_CURLY `{`
-
-
 KEYWORD: INT_KW `int`
-
 IDENTIFIER: `handle`
 SYMBOL: SEMI `;`
-
-
 IDENTIFIER: `handle`
-
 SYMBOL: EQ `=`
-
 KEYWORD: THIS_KW `this`
 SYMBOL : DOT `.`
 IDENTIFIER: `run`
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
-
-
 KEYWORD: RETRUN_KW `return`
-
 IDENTIFIER: `handle`
 SYMBOL: SEMI `;`
-
-
 SYMBOL: R_CURLY `}`
-
 SYMBOL: R_CURLY `}`

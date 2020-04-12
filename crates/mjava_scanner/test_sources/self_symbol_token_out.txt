@@ -1,19 +1,14 @@
 IDENTIFIER: `a`
 line 1 :unknown character `&`
 IDENTIFIER: `b`
-
 IDENTIFIER: `c`
 line 2 :unknown character `|`
 line 2 :unknown character `|`
 IDENTIFIER: `d`
-
 SYMBOL: L_PAREN `(`
 SYMBOL: R_PAREN`)`
-
 SYMBOL: STAR `*`
-
 SYMBOL: AMP `&&`
 line 5 :unknown character `&`
-
 line 6 :unknown character `&`
 line 6 :unknown character `^`
