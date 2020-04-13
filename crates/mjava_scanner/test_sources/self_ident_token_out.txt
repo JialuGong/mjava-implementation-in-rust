@@ -10,3 +10,8 @@ line 5 :unknown character `_`
 INTERGER: `1`
 IDENTIFIER: `a`
 IDENTIFIER: `a_1`
+line 7 :wrong ID `h_`
+line 7 :unknown character `_`
+line 7 :unknown character `_`
+line 7 :unknown character `_`
+IDENTIFIER: `llog`

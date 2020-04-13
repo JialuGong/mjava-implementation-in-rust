@@ -10,6 +10,10 @@ pub struct TokenError {
 
     pub kind:TokenKind,
 }
+enum IdState{
+    START,
+    UNDONE,
+}
 impl Token {
     pub fn new(kind: TokenKind, length: usize) -> Token {
         Token { kind, length }
@@ -72,6 +76,7 @@ pub enum TokenKind {
 
 use crate::cursor::{Cursor, EOF_CHAR};
 use crate::TokenKind::*;
+use crate::IdState::*;
 
 pub fn first_token(input: &str) -> Result<Token, TokenError> {
     debug_assert!(!input.is_empty());
@@ -191,9 +196,10 @@ impl Cursor<'_> {
 
     fn id_block(&mut self) -> TokenKind {
         let mut id_str = String::new();
+        let mut state=START;
         id_str.push(self.prev());
         loop {
-            if self.is_id_continue(self.first_char()) {
+            if self.is_id_continue(&mut state,self.first_char()) {
                 id_str.push(self.first_char());
                 self.next_char();
             } else {
@@ -249,9 +255,14 @@ impl Cursor<'_> {
             _ => false,
         }
     }
-    fn is_id_continue(&self, c: char) -> bool {
+    fn is_id_continue(&self,state:&mut IdState, c: char) -> bool {
         match c {
-            '_' => true,
+            '_' => {
+               match state{
+                   START=>{*state=UNDONE;true}
+                   UNDONE=>{false}
+               }
+            },
             'A'..='Z' => true,
             'a'..='z'=>true,
             '0'..='9' => true,
