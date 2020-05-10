@@ -3,3 +3,10 @@
 [[package]]
 name = "mjava_parser"
 version = "0.1.0"
+dependencies = [
+ "mjava_scanner",
+]
+
+[[package]]
+name = "mjava_scanner"
+version = "0.1.0"
