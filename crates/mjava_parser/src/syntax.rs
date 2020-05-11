@@ -39,6 +39,7 @@ pub enum SyntaxKind {
     ASSIGN_STATE,
     PRINT_STATE,
     BLOCK_STATE,
+    ERROR_STATE(String),
 }
 
 

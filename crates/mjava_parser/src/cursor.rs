@@ -8,6 +8,7 @@ pub struct Lexer {
 }
 impl Lexer {
     pub fn new( mut tokens_init: Vec<Token>) -> Lexer {
+         tokens_init.reverse();
         Lexer {
             tokens: tokens_init,
             pos: 0,
@@ -22,6 +23,7 @@ impl Lexer {
            self.prev=TokenKind::EOF;
            TokenKind::EOF
        }
+      
     }
     pub fn nth_token(&self,n:usize)->TokenKind{
         if let  Some(token)=self.tokens.get(self.tokens.len()-n){
@@ -32,5 +34,8 @@ impl Lexer {
     }
     pub fn get_prev(&self)->TokenKind{
         self.prev.clone()
+    }
+    pub fn push_eof(&mut self){
+        self.tokens.push(Token::new(TokenKind::EOF, 0));
     }
 }
