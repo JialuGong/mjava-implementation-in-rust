@@ -252,10 +252,11 @@ fn build_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         //for extend part
         if let EXTENDS_KW = lexer.nth_token(1) {
             let extends_root = Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))));
-            if let IDENT(id) = lexer.nth_token(1) {
+            if let TokenKind::IDENT(id) = lexer.next_token() {
                 extends_root
                     .borrow_mut()
                     .add_syntax_child(SyntaxKind::IDENT(id));
+                root.borrow_mut().add_child(Some(extends_root));
             } else {
                 let err = format!("in CLASS,missing IDENT,you are {}", lexer.get_prev());
                 root.borrow_mut()

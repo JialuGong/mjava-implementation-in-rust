@@ -209,5 +209,24 @@ GOAL
         FALSE_KW
   CLASS_DECLARATION
     IDENT("MyClient")
-    ERROR_STATE("in CLASS,missing IDENT,you are identifier: extend")
-  ERROR_STATE("In goal part,missing EOF ,you are identifier: Client")
+    EXTEND_KW
+      IDENT("Client")
+    METHOD_DECLARATION
+      TYPE_INT
+        IDENT("start")
+      TYPE_INT
+        IDENT("host")
+      TYPE_INT
+        IDENT("port")
+      TYPE_INT
+        IDENT("handle")
+      ASSIGN_STATE
+        IDENT("handle")
+        QUOTE_EXPRESSION
+          THIS_KW
+          IDENT("run")
+        ERROR_STATE("In assigne statement,missing ;,you are return keyword")
+      ERROR_STATE("In assigne statement,missing =,you are ;")
+        IDENT("handle")
+        ERROR_STATE("In assigne statement,missing ;,you are }")
+    ERROR_STATE("in CLASS,missing },you are EOF")

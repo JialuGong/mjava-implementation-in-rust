@@ -2,15 +2,15 @@
 pub mod cursor;
 
 pub struct Token {
-   pub kind: TokenKind,
-   length: usize,
+    pub kind: TokenKind,
+    length: usize,
 }
 pub struct TokenError {
     length: usize,
 
-    pub kind:TokenKind,
+    pub kind: TokenKind,
 }
-enum IdState{
+enum IdState {
     START,
     UNDONE,
 }
@@ -18,18 +18,18 @@ impl Token {
     pub fn new(kind: TokenKind, length: usize) -> Token {
         Token { kind, length }
     }
-    pub fn get_length(&self)->usize{
+    pub fn get_length(&self) -> usize {
         self.length
     }
 }
 
-
 impl TokenError {
-    pub fn new(length: usize, kind:TokenKind) -> TokenError {
-        TokenError { length ,kind}
+    pub fn new(length: usize, kind: TokenKind) -> TokenError {
+        TokenError { length, kind }
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum TokenKind {
     CLASS_KW,
     PUBLIC_KW,
@@ -72,11 +72,61 @@ pub enum TokenKind {
     BLANK_BLOCK,
     UNKNOWN(String),
     WRONG_ID(String),
+    EOF,
 }
 
 use crate::cursor::{Cursor, EOF_CHAR};
-use crate::TokenKind::*;
 use crate::IdState::*;
+use crate::TokenKind::*;
+use std::fmt;
+impl fmt::Display for TokenKind {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            CLASS_KW => write!(f, "class keyword"),
+            PUBLIC_KW => write!(f, "public keyword"),
+            STATIC_KW => write!(f, "class keyword"),
+            VOID_KW => write!(f, "void keyword"),
+            MAIN_KW => write!(f, "main keyword"),
+            STRING_KW => write!(f, "string keyword"),
+            EXTENDS_KW => write!(f, "extend keyword"),
+            RETURN_KW => write!(f, "return keyword"),
+            INT_KW => write!(f, "int keyword"),
+            BOOLEAN_KW => write!(f, "bool keyword"),
+            IF_KW => write!(f, "if keyword"),
+            ELSE_KW => write!(f, "else keyword"),
+            WHILE_KW => write!(f, "while keyword"),
+            LENGTH_KW => write!(f, "length keyword"),
+            TRUE_KW => write!(f, "true keyword"),
+            FALSE_KW => write!(f, "false keyword"),
+            THIS_KW => write!(f, "this keyword"),
+            NEW_KW => write!(f, "new keyword"),
+            SYSTEM_KW => write!(f, "system keyword"),
+            L_BRACK => write!(f, "["),
+            R_BRACK => write!(f, "]"),
+            L_PAREN => write!(f, "("),
+            R_PAREN => write!(f, ")"),
+            L_CURLY => write!(f, "{{"),
+            R_CURLY => write!(f, "}}"),
+            COMMA => write!(f, ","),
+            SEMI => write!(f, ";"),
+            EQ => write!(f, "="),
+            L_ANGLE => write!(f, "<"),
+            PLUS => write!(f, "+"),
+            MINUS => write!(f, "-"),
+            STAR => write!(f, "*"),
+            EXCL => write!(f, "!"),
+            AMP => write!(f, "&&"),
+            DOT => write!(f, "."),
+            ENTER_BLOCK => write!(f, "ENTER"),
+            IDENT(id) => write!(f, "identifier: {}", id),
+            INTER(int) => write!(f, "int: {}", int),
+            BLANK_BLOCK => write!(f, "BLANK"),
+            UNKNOWN(String) => write!(f, "UNKNOWN"),
+            WRONG_ID(String) => write!(f, "WRONG"),
+            EOF => write!(f, "EOF"),
+        }
+    }
+}
 
 pub fn first_token(input: &str) -> Result<Token, TokenError> {
     debug_assert!(!input.is_empty());
@@ -98,16 +148,16 @@ pub fn tokenize(mut input: &str) -> impl Iterator<Item = Result<Token, TokenErro
     })
 }
 
-pub fn get_tokens(mut input:&str)->Vec<Result<Token,TokenError>>{
-    let mut tokens:Vec<Result<Token,TokenError>>=Vec::new();
-    let mut line=0;
-    while !input.is_empty(){
-        let token=first_token(input);
+pub fn get_tokens(mut input: &str) -> Vec<Result<Token, TokenError>> {
+    let mut tokens: Vec<Result<Token, TokenError>> = Vec::new();
+    let mut line = 0;
+    while !input.is_empty() {
+        let token = first_token(input);
         let len = match &token {
             Ok(o) => o.length,
             Err(e) => e.length,
         };
-        input=&input[len..];
+        input = &input[len..];
         tokens.push(token);
     }
     tokens
@@ -119,7 +169,7 @@ impl Cursor<'_> {
         let kind = match first_char {
             //blank block
             ' ' | '\t' => self.blank_block(),
-            '\n'=>ENTER_BLOCK,
+            '\n' => ENTER_BLOCK,
             'S' => self.system_block(),
 
             //id block contain KW
@@ -143,7 +193,7 @@ impl Cursor<'_> {
             '-' => MINUS,
             '*' => STAR,
             '!' => EXCL,
-            '.'=>DOT,
+            '.' => DOT,
             //"&&"
             '&' => match self.first_char() {
                 '&' => {
@@ -154,9 +204,9 @@ impl Cursor<'_> {
             },
             _ => UNKNOWN(first_char.to_string()),
         };
-        
+
         match &kind {
-            UNKNOWN(_s)|WRONG_ID(_s) => Err(TokenError::new(self.consum(),kind)),
+            UNKNOWN(_s) | WRONG_ID(_s) => Err(TokenError::new(self.consum(), kind)),
             _ => Ok(Token::new(kind, self.consum())),
         }
     }
@@ -177,7 +227,7 @@ impl Cursor<'_> {
         let mut new_string = String::new();
         for i in 0.. {
             let ch = self.nth_char(i);
-            if self.is_system_continue(ch,i) {
+            if self.is_system_continue(ch, i) {
                 new_string.push(ch)
             } else {
                 break;
@@ -196,10 +246,10 @@ impl Cursor<'_> {
 
     fn id_block(&mut self) -> TokenKind {
         let mut id_str = String::new();
-        let mut state=START;
+        let mut state = START;
         id_str.push(self.prev());
         loop {
-            if self.is_id_continue(&mut state,self.first_char()) {
+            if self.is_id_continue(&mut state, self.first_char()) {
                 id_str.push(self.first_char());
                 self.next_char();
             } else {
@@ -214,7 +264,7 @@ impl Cursor<'_> {
     }
 
     fn number_block(&mut self) -> TokenKind {
-        let mut num_str=String::new();
+        let mut num_str = String::new();
         num_str.push(self.prev());
         loop {
             if self.is_number_continue(self.first_char()) {
@@ -233,7 +283,7 @@ impl Cursor<'_> {
             "void" => VOID_KW,
             "main" => MAIN_KW,
             "String" => STRING_KW,
-            "extends" => EXTENDS_KW,
+            "extend" => EXTENDS_KW,
             "return" => RETURN_KW,
             "int" => INT_KW,
             "boolean" => BOOLEAN_KW,
@@ -243,7 +293,7 @@ impl Cursor<'_> {
             "length" => LENGTH_KW,
             "true" => TRUE_KW,
             "false" => FALSE_KW,
-            "this"=>THIS_KW,
+            "this" => THIS_KW,
             "new" => NEW_KW,
             _ => IDENT(s.clone()),
         }
@@ -251,30 +301,31 @@ impl Cursor<'_> {
     fn is_id_start(&self, c: char) -> bool {
         match c {
             'A'..='Z' => true,
-            'a'..='z'=>true,
+            'a'..='z' => true,
             _ => false,
         }
     }
-    fn is_id_continue(&self,state:&mut IdState, c: char) -> bool {
+    fn is_id_continue(&self, state: &mut IdState, c: char) -> bool {
         match c {
-            '_' => {
-               match state{
-                   START=>{*state=UNDONE;true}
-                   UNDONE=>{false}
-               }
+            '_' => match state {
+                START => {
+                    *state = UNDONE;
+                    true
+                }
+                UNDONE => false,
             },
             'A'..='Z' => true,
-            'a'..='z'=>true,
+            'a'..='z' => true,
             '0'..='9' => true,
             _ => false,
         }
     }
-    fn is_system_continue(&self, c: char,i:usize) -> bool {
+    fn is_system_continue(&self, c: char, i: usize) -> bool {
         match c {
             'A'..='z' => true,
-            '.' => match i{
-                i if i>=17=>false,
-                _=>true
+            '.' => match i {
+                i if i >= 17 => false,
+                _ => true,
             },
             _ => false,
         }

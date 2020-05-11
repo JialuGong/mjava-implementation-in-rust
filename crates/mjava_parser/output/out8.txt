@@ -209,5 +209,5 @@ GOAL
         FALSE_KW
   CLASS_DECLARATION
     IDENT("MyClient")
-    ERROR_STATE("in CLASS,missing IDENT,you are identifier: extend")
-  ERROR_STATE("In goal part,missing EOF ,you are {")
+    ERROR_STATE("in CLASS,missing IDENT,you are {")
+  ERROR_STATE("In goal part,missing EOF ,you are public keyword")
