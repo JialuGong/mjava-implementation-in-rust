@@ -1,6 +1,0 @@
-GOAL
-  MAIN_CLASS
-    IDENT("WhatHappen")
-    ERROR_STATE("in MAINCLASS,missing String_kw,you are int keyword")
-  ERROR_STATE("No Class Declaration!")
-  ERROR_STATE("In goal part,missing EOF ,you are identifier: argc")
