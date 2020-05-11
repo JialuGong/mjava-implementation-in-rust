@@ -40,6 +40,7 @@ pub enum SyntaxKind {
     PRINT_STATE,
     BLOCK_STATE,
     ERROR_STATE(String),
+    THIS_KW,
 }
 
 
@@ -84,7 +85,9 @@ impl fmt::Display for SyntaxKind {
             IDENT(id) => write!(f, "Identifier :{}", id),
             TRUE_KW => write!(f, "TRUE_KW `true`"),
             FALSE_KW => write!(f, "FALSE_KW `false`"),
+            THIS_KW=>write!(f,"THIS_KW `this`"),
             t => {panic!("no such {:?}",t)}
+            
         }
     }
 }

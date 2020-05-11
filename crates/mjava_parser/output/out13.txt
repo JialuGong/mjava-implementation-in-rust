@@ -6,5 +6,41 @@ GOAL
       IDENT("mc")
     TYPE_INT
       IDENT("handle")
-    ERROR_STATE("in MAINCLASS,missing },you are identifier: mc")
-  ERROR_STATE("No Class Declaration!")
+    ASSIGN_STATE
+      IDENT("mc")
+      NEW_CLASS_EXPRESION
+        IDENT("MyClient")
+    WHILE_STATE
+      EXCL_EXPRESSION
+        FALSE_KW
+      BLOCK_STATE
+        ASSIGN_STATE
+          IDENT("handle")
+          QUOTE_EXPRESSION
+            IDENT("mc")
+            IDENT("start")
+            INT("10")
+            INT("10")
+  CLASS_DECLARATION
+    IDENT("Client")
+    TYPE_INT
+      IDENT("in")
+    TYPE_INT
+      IDENT("out")
+    TYPE_INT_ARRAY
+      IDENT("messagelist")
+    TYPE_INT
+      IDENT("index")
+    METHOD_DECLARATION
+      TYPE_BOOLEAN
+        IDENT("init")
+      ASSIGN_STATE
+        IDENT("index")
+        INT("0")
+      ASSIGN_STATE
+        IDENT("messagelist")
+        ERROR_STATE("In Expression,missing int_kw or ident,you are [ ")
+        ERROR_STATE("In assigne statement,missing ;,you are int: 10")
+      ERROR_STATE("in Method,missing },you are ]")
+    ERROR_STATE("in CLASS,missing },you are ;")
+  ERROR_STATE("In goal part,missing EOF ,you are identifier: in")

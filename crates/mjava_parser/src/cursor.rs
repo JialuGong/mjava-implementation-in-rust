@@ -26,7 +26,7 @@ impl Lexer {
       
     }
     pub fn nth_token(&self,n:usize)->TokenKind{
-        if let  Some(token)=self.tokens.get(self.tokens.len()-n){
+        if let  Some(token)=self.tokens.get(if self.tokens.len()>=n{self.tokens.len()-n}else{0}){
             token.kind.clone()
         }else{
             TokenKind::EOF
@@ -35,7 +35,7 @@ impl Lexer {
     pub fn get_prev(&self)->TokenKind{
         self.prev.clone()
     }
-    pub fn push_eof(&mut self){
-        self.tokens.push(Token::new(TokenKind::EOF, 0));
-    }
+    // pub fn clear(&mut self){
+    //     self.tokens.clear();
+    // }
 }

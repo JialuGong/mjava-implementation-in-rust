@@ -6,5 +6,13 @@ GOAL
       IDENT("mc")
     TYPE_INT
       IDENT("handle")
-    ERROR_STATE("in MAINCLASS,missing },you are identifier: mc")
+    ASSIGN_STATE
+      IDENT("mc")
+      NEW_CLASS_EXPRESION
+        IDENT("MyClient")
+        ERROR_STATE("In Expression,missing ( ,you are )")
+        ERROR_STATE("In Expression,missing ) ,you are ;")
+      ERROR_STATE("In assigne statement,missing ;,you are while keyword")
+    ERROR_STATE("in MAINCLASS,missing },you are (")
   ERROR_STATE("No Class Declaration!")
+  ERROR_STATE("In goal part,missing EOF ,you are !")

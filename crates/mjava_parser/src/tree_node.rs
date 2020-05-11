@@ -27,10 +27,19 @@ impl TreeNode {
     pub fn add_child(& mut self, child: Option<Rc<RefCell<TreeNode>>>) {
         self.children.push(child);
     }
-    pub fn add_sibling(& mut self, sibling: Option<Rc<RefCell<TreeNode>>>) {
-        self.siblings.push(sibling);
+   
+   pub  fn check_bp(root:&Option<Rc<RefCell<TreeNode>>>)->bool{
+       if let ERROR_STATE(_)= root.as_ref().unwrap().borrow().kind.clone(){
+           true
+       }else{
+           for child in &root.as_ref().unwrap().borrow().children{
+               if child.is_some(){
+                   return Self::check_bp(child);
+               }
+           }
+           false
+       }
     }
-
 
     pub fn print(root:Option<Rc<RefCell<TreeNode>>>) -> String {
         let mut stack = vec![(root.clone(), 0, false)];

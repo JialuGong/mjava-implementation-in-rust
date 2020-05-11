@@ -6,47 +6,7 @@ use mjava_scanner::{Token, TokenKind, TokenKind::*};
 use std::cell::RefCell;
 use std::panic;
 use std::rc::Rc;
-// fn match_token(lexer: &mut Lexer, token_kind: TokenKind) {
-//     match lexer.next_token() {
-//         token_kind => {}
-//         _ => {
-//             println!("shold {:?},you are{:?}", token_kind, lexer.get_prev());
-//             lexer.push_eof();
-//         }
-//     }
 
-// }
-// fn valid_token(lexer: &mut Lexer, token_kind: TokenKind) {
-//     if let TokenKind = lexer.nth_token(1) {
-//         println!("shold {:?},you are{:?}", token_kind, lexer.get_prev());
-//         lexer.push_eof();
-//     }
-// }
-// macro_rules! match_token {
-//     ($v:expr, $p:pat) => {
-//         if let $p = $v.next_token {
-//             true
-//         //panic!("you are ,shout be, missing")
-//         } else {
-//             $v.push_eof();
-//             println!("shold {:?},you are{:?}", $p, $v.get_prev());
-//         }
-//     };
-// }
-
-// macro_rules! valid_token {
-//     ($v:ident, $p:pat) => {
-//         if let $p = $v.nth_token(1) {
-//             true
-//         //panic!("you are ,shout be, missing")
-//         } else {
-//             println!("shold {:?},you are{:?}", $p, $v.nth_token());
-//             $v.push_eof();
-//         }
-//     };
-// }
-
-// THIS PART IS A MACRO FOR POWER-BINDING
 fn infix_binding_power(p: TokenKind) -> Option<(u8, u8)> {
     match p {
         TokenKind::AMP | TokenKind::L_ANGLE => Some((3u8, 4u8)),
@@ -77,6 +37,9 @@ pub fn parser(tokens: Vec<Token>) -> Option<Rc<RefCell<TreeNode>>> {
 }
 pub fn token2syntax(lexer: &mut Lexer) -> SyntaxKind {
     match lexer.next_token() {
+        IDENT(id) => SyntaxKind::IDENT(id),
+        INTER(int) => SyntaxKind::INT(int),
+        THIS_KW => SyntaxKind::THIS_KW,
         TRUE_KW => SyntaxKind::TRUE_KW,
         FALSE_KW => SyntaxKind::FALSE_KW,
         ELSE_KW => SyntaxKind::ELSE_KW,
@@ -98,7 +61,6 @@ pub fn token2syntax(lexer: &mut Lexer) -> SyntaxKind {
         L_BRACK => SyntaxKind::LBRACK_EXPRESSION,
         t => {
             println! {"No such token"};
-            lexer.push_eof();
             SyntaxKind::ERROR_STATE(format!("wrong {:?}", t))
         }
     }
@@ -111,24 +73,21 @@ fn build_goal(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
     match lexer.nth_token(1) {
         CLASS_KW => loop {
             let class_node = build_class(lexer);
-            if class_node.is_none() {
+            &root.borrow_mut().add_child(class_node.clone());
+            if class_node.is_none() || TreeNode::check_bp(&class_node) {
                 break;
             }
-            &root.borrow_mut().add_child(class_node);
         },
         _ => {
-            lexer.push_eof();
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(format!("No Class Declaration!")));
         }
     }
     if let EOF = lexer.next_token() {
     } else {
-        let err = format!("error");
-        lexer.push_eof();
-        return Some(Rc::new(RefCell::new(TreeNode::new(
-            SyntaxKind::ERROR_STATE(err),
-        ))));
+        let err = format!("In goal part,missing EOF ,you are {}", lexer.get_prev());
+        root.borrow_mut()
+            .add_syntax_child(SyntaxKind::ERROR_STATE(err));
     }
     Some(root)
 }
@@ -140,6 +99,7 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         let err = format!("in MAINCLASS,missing class,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     match lexer.next_token() {
         IDENT(id) => {
@@ -149,6 +109,7 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             let err = format!("in MAINCLASS,missing ident,you are {}", lexer.get_prev());
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         }
     }
     if let L_CURLY = lexer.next_token() {
@@ -156,6 +117,7 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         let err = format!("in MAINCLASS,missing {{,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let PUBLIC_KW = lexer.next_token() {
     } else {
@@ -165,6 +127,7 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         );
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let STATIC_KW = lexer.next_token() {
     } else {
@@ -174,24 +137,28 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         );
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let VOID_KW = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing void_kw,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let MAIN_KW = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing main_kw,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let L_PAREN = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing (,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let STRING_KW = lexer.next_token() {
     } else {
@@ -201,18 +168,21 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         );
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let L_BRACK = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing [,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let R_BRACK = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing ],you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let IDENT(id) = lexer.next_token() {
         root.borrow_mut().add_syntax_child(SyntaxKind::IDENT(id));
@@ -220,43 +190,48 @@ fn build_main_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         let err = format!("in MAINCLASS,missing ident,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let R_PAREN = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing ),you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     if let L_CURLY = lexer.next_token() {
     } else {
         let err = format!("in MAINCLASS,missing {{,you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return Some(root);
     }
     //build declartions
     loop {
         let node = build_vardeclaration(lexer);
-        if node.is_none() {
+        &root.borrow_mut().add_child(node.clone());
+        if node.is_none() || TreeNode::check_bp(&node) {
             break;
         }
-        &root.borrow_mut().add_child(node);
     }
 
-    //build methods
+    //build statement
 
     loop {
         let node = build_statement(lexer);
-        if node.is_none() {
+        root.borrow_mut().add_child(node.clone());
+        if node.is_none() || TreeNode::check_bp(&node) {
             break;
         }
-        &root.borrow_mut().add_child(node);
     }
-
-    if let R_CURLY = lexer.next_token() {
-    } else {
-        let err = format!("in MAINCLASS,missing }},you are {}", lexer.get_prev());
-        root.borrow_mut()
-            .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+    for i in 0..2 {
+        if let R_CURLY = lexer.next_token() {
+        } else {
+            let err = format!("in MAINCLASS,missing }},you are {}", lexer.get_prev());
+            root.borrow_mut()
+                .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
+        }
     }
     Some(root)
 }
@@ -271,6 +246,7 @@ fn build_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             let err = format!("in CLASS,missing IDENT,you are {}", lexer.get_prev());
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         };
 
         //for extend part
@@ -284,6 +260,7 @@ fn build_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
                 let err = format!("in CLASS,missing IDENT,you are {}", lexer.get_prev());
                 root.borrow_mut()
                     .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+                return Some(root);
             }
         }
         if let L_CURLY = lexer.next_token() {
@@ -291,24 +268,24 @@ fn build_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             let err = format!("in CLASS,missing IDENT,you are {}", lexer.get_prev());
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         }
         //build declartions
         loop {
             let node = build_vardeclaration(lexer);
-            if node.is_none() {
+            &root.borrow_mut().add_child(node.clone());
+            if node.is_none() || TreeNode::check_bp(&node) {
                 break;
             }
-            &root.borrow_mut().add_child(node);
         }
 
         //build methods
-
         loop {
             let node = build_method(lexer);
-            if node.is_none() {
+            &root.borrow_mut().add_child(node.clone());
+            if node.is_none() || TreeNode::check_bp(&node) {
                 break;
             }
-            &root.borrow_mut().add_child(node);
         }
 
         if let R_CURLY = lexer.next_token() {
@@ -316,6 +293,7 @@ fn build_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             let err = format!("in CLASS,missing }},you are {}", lexer.get_prev());
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         }
         Some(root)
     } else {
@@ -326,10 +304,14 @@ fn build_class(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
 fn build_vardeclaration(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
     let root = match lexer.nth_token(1) {
         BOOLEAN_KW => {
-            lexer.next_token();
-            Some(Rc::new(RefCell::new(TreeNode::new(
-                SyntaxKind::TYPE_BOOLEAN,
-            ))))
+            if let SEMI = lexer.nth_token(3) {
+                lexer.next_token();
+                Some(Rc::new(RefCell::new(TreeNode::new(
+                    SyntaxKind::TYPE_BOOLEAN,
+                ))))
+            } else {
+                None
+            }
         }
         INT_KW => {
             lexer.next_token();
@@ -384,6 +366,7 @@ fn build_vardeclaration(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             .unwrap()
             .borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return root;
     }
 
     if let SEMI = lexer.next_token() {
@@ -397,6 +380,7 @@ fn build_vardeclaration(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             .unwrap()
             .borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        return root;
     }
     root
 }
@@ -405,59 +389,85 @@ fn build_method(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
     if let PUBLIC_KW = lexer.nth_token(1) {
         lexer.next_token();
         let mut root = Rc::new(RefCell::new(TreeNode::new(SyntaxKind::METHOD_DECLARATION)));
-
+        // let param=build_param(lexer);
+        // if !param.is_none(){
         root.borrow_mut().add_child(build_param(lexer));
+        // }else{
+        //     let err=format!("In method parama,missing type,you are {}",lexer.get_prev());
+        //     root.borrow_mut().add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        //     return Some(root);
+        // }
 
         if let L_PAREN = lexer.next_token() {
         } else {
             let err = format!("in Method,missing (,you are {}", lexer.get_prev());
-            &root
-                .borrow_mut()
+            root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         }
 
-        root.borrow_mut().add_child(build_params(lexer));
-        if let R_PAREN = lexer.next_token() {}
-        let err = format!("in Method,missing ),you are {}", lexer.get_prev());
-        root.borrow_mut()
-            .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+        let mut node = build_param(lexer);
+        loop {
+            root.borrow_mut().add_child(node.clone());
+            if node.is_some() && !TreeNode::check_bp(&node) {
+                if let COMMA = lexer.nth_token(1) {
+                    lexer.next_token();
+                    node = build_param(lexer);
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        if let R_PAREN = lexer.next_token() {
+        } else {
+            let err = format!("in Method,missing ),you are {}", lexer.get_prev());
+            root.borrow_mut()
+                .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
+        }
         if let L_CURLY = lexer.next_token() {
         } else {
             let err = format!("in Method,missing {{,you are {}", lexer.get_prev());
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         }
-        root.borrow_mut().add_child(build_statement(lexer));
-        root.borrow_mut().add_child(build_return(lexer));
-        //TODO
-        if let SEMI = lexer.next_token() {}
+
+        //build declartions
+        loop {
+            let node = build_vardeclaration(lexer);
+            root.borrow_mut().add_child(node.clone());
+            if node.is_none() || TreeNode::check_bp(&node) {
+                break;
+            }
+        }
+
+        //build statement
+        loop {
+            let node = build_statement(lexer);
+            root.borrow_mut().add_child(node.clone());
+            if node.is_none() || TreeNode::check_bp(&node) {
+                break;
+            }
+        }
+
+        if let RETURN_KW = lexer.nth_token(1) {
+            let return_node = build_return(lexer);
+            root.borrow_mut().add_child(return_node);
+        }
         if let R_CURLY = lexer.next_token() {
         } else {
             let err = format!("in Method,missing }},you are {}", lexer.get_prev());
             root.borrow_mut()
                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
+            return Some(root);
         }
         Some(root)
     } else {
         None
-    }
-}
-
-fn build_params(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
-    let mut root = build_param(lexer);
-    if root.is_none() {
-        return None;
-    } else {
-        loop {
-            let node = build_param(lexer);
-            if let COMMA = lexer.nth_token(1) {
-                lexer.next_token();
-                &root.as_ref().unwrap().borrow_mut().add_sibling(node);
-            } else {
-                break;
-            }
-        }
-        return root;
     }
 }
 
@@ -471,7 +481,6 @@ fn build_param(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         }
         INT_KW => {
             lexer.next_token();
-
             if let L_BRACK = lexer.nth_token(1) {
                 lexer.next_token();
                 if let R_BRACK = lexer.next_token() {
@@ -485,9 +494,7 @@ fn build_param(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
                     SyntaxKind::TYPE_INT_ARRAY,
                 ))))
             } else {
-                Some(Rc::new(RefCell::new(TreeNode::new(
-                    SyntaxKind::TYPE_INT_ARRAY,
-                ))))
+                Some(Rc::new(RefCell::new(TreeNode::new(SyntaxKind::TYPE_INT))))
             }
         }
         IDENT(id) => {
@@ -496,13 +503,10 @@ fn build_param(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
                 SyntaxKind::TYPE_IDENT(id),
             ))))
         }
-        _ => None,
+        _ => return None,
     };
-    if root.is_none() {
-        return root;
-    }
 
-    if let IDENT(id) = lexer.nth_token(1) {
+    if let IDENT(id) = lexer.next_token() {
         &root
             .as_ref()
             .unwrap()
@@ -520,19 +524,20 @@ fn build_param(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
 }
 
 fn build_return(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
-    if let RETURN_KW = lexer.next_token() {
-        let root = Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))));
-        root.borrow_mut().add_child(build_expression(lexer));
-        Some(root)
+    lexer.next_token();
+    let root = Rc::new(RefCell::new(TreeNode::new(SyntaxKind::RETURN_KW)));
+    root.borrow_mut().add_child(build_expression(lexer));
+    if let SEMI = lexer.next_token() {
     } else {
         let err = format!(
-            "in MethodParam ,missing return_kw,you are {}",
+            "in Method return part ,missing SEMI(;),you are {}",
             lexer.get_prev()
         );
-        Some(Rc::new(RefCell::new(TreeNode::new(
-            SyntaxKind::ERROR_STATE(err),
-        ))))
+        &root
+            .borrow_mut()
+            .add_syntax_child(SyntaxKind::ERROR_STATE(err));
     }
+    Some(root)
 }
 
 fn build_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
@@ -542,33 +547,44 @@ fn build_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         WHILE_KW => build_while_statement(lexer),
         SYSTEM_KW => build_print_statement(lexer),
         IDENT(_id) => build_assign_statement(lexer),
-        _ => {
-            let err = format!(
-                "in Statement,missing statement_head,you are {}",
-                lexer.get_prev()
-            );
-            Some(Rc::new(RefCell::new(TreeNode::new(
-                SyntaxKind::ERROR_STATE(err),
-            ))))
-        }
+        _ => None,
     }
 }
 
 fn build_block_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
-    lexer.next_token();
-    let mut root = Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))));
-    root.borrow_mut().add_child(build_statement(lexer));
+    let root = Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))));
+    loop {
+        let node = match lexer.nth_token(1) {
+             IF_KW | WHILE_KW | SYSTEM_KW => build_statement(lexer),
+            IDENT(_id) => build_statement(lexer),
+            _ => break,
+        };
+        root.borrow_mut().add_child(node.clone());
+        if node.is_none() || TreeNode::check_bp(&node) {
+            break;
+        }
+
+        // if let L_CURLY=lexer.nth_token(1){
+        //     break;
+        // }
+        // let node = build_statement(lexer);
+        // root.borrow_mut().add_child(node.clone());
+        // if node.is_none() || TreeNode::check_bp(&node) {
+        //     break;
+        // }
+      
+    }
     if let R_CURLY = lexer.next_token() {
     } else {
-        let err = format!("in Statement,missing }},you are {}", lexer.get_prev());
+        let err = format!("In black statement,missing }},you are {}", lexer.get_prev());
         root.borrow_mut()
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
     }
+
     Some(root)
 }
 
 fn build_if_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
-    lexer.next_token();
     let root = Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))));
     if let L_PAREN = lexer.next_token() {
     } else {
@@ -577,7 +593,7 @@ fn build_if_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
             .add_syntax_child(SyntaxKind::ERROR_STATE(err));
     }
     let mut expression_node = build_expression(lexer);
-    if let L_PAREN = lexer.next_token() {
+    if let R_PAREN = lexer.next_token() {
     } else {
         let err = format!("In if statement,missing ),you are {}", lexer.get_prev());
         root.borrow_mut()
@@ -589,7 +605,7 @@ fn build_if_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         .borrow_mut()
         .add_child(build_statement(lexer));
     root.borrow_mut().add_child(expression_node);
-    if let ELSE_KW = lexer.next_token() {
+    if let ELSE_KW = lexer.nth_token(1) {
     } else {
         let err = format!(
             "In if statement,missing else_kw,you are {}",
@@ -665,9 +681,9 @@ fn build_assign_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
         L_BRACK => {
             lexer.next_token();
             let tmp = build_expression(lexer);
-            if let R_PAREN = lexer.next_token() {
+            if let R_BRACK = lexer.next_token() {
             } else {
-                let err = format!("In assing statment,missing ) ,you are {}", lexer.get_prev());
+                let err = format!("In assing statment,missing ],you are {}", lexer.get_prev());
 
                 &tmp.as_ref()
                     .unwrap()
@@ -708,15 +724,17 @@ fn build_assign_statement(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
 //for Expression part
 //This part using pratt parsing
 fn build_expression(lexer: &mut Lexer) -> Option<Rc<RefCell<TreeNode>>> {
-    expression_bp(lexer, 0u8)
+    let ans = expression_bp(lexer, 0u8);
+    println!("come_hear");
+    ans
 }
 
 fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>> {
-    let mut lhs = match lexer.next_token() {
+    let mut lhs = match lexer.nth_token(1) {
         //FOR ATOM NODE
-        TRUE_KW => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
-        FALSE_KW => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
-        IDENT(_id) => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
+        TRUE_KW | FALSE_KW => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
+        THIS_KW => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
+        IDENT(id) => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
         INTER(int) => Some(Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))))),
 
         //FOR TWO NEW INT EXPRESSION PART
@@ -795,6 +813,7 @@ fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>>
             }
         }
         L_PAREN => {
+            lexer.next_token();
             let mhs = Rc::new(RefCell::new(TreeNode::new(SyntaxKind::LPAREN_EXPRESSION)));
             let rhs = expression_bp(lexer, 0u8);
             if let R_PAREN = lexer.next_token() {
@@ -819,16 +838,16 @@ fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>>
             }
             _ => break,
         };
+
         if let Some((l_bp, ())) = postfix_binding_power(op_token.clone()) {
             if l_bp < min_bp {
                 break;
             }
             lexer.next_token();
-            let mut mhs = Rc::new(RefCell::new(TreeNode::new(SyntaxKind::LBRACK_EXPRESSION)));
+            let mhs = Rc::new(RefCell::new(TreeNode::new(SyntaxKind::LBRACK_EXPRESSION)));
             if let R_BRACK = lexer.next_token() {
             } else {
                 let err = format!("error");
-                lexer.push_eof();
                 return Some(Rc::new(RefCell::new(TreeNode::new(
                     SyntaxKind::ERROR_STATE(err),
                 ))));
@@ -839,6 +858,7 @@ fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>>
             lhs = Some(mhs);
             continue;
         }
+
         if let Some((l_bp, r_bp)) = infix_binding_power(op_token) {
             if l_bp < min_bp {
                 break;
@@ -846,10 +866,11 @@ fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>>
             if let DOT = lexer.nth_token(1) {
                 lexer.next_token();
                 match lexer.next_token() {
-                    IDENT(_id) => {
+                    IDENT(id) => {
                         let mut mhs =
                             Rc::new(RefCell::new(TreeNode::new(SyntaxKind::QUOTE_EXPRESSION)));
                         mhs.borrow_mut().add_child(lhs.clone());
+                        mhs.borrow_mut().add_syntax_child(SyntaxKind::IDENT(id));
                         if let L_PAREN = lexer.next_token() {
                         } else {
                             let err =
@@ -858,19 +879,29 @@ fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>>
                                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
                             break;
                         }
-                        let c_bp = 10u8;
-                        let rhs = expression_bp(lexer, c_bp);
+                        // let c_bp = 10u8;
+                        let rhs = expression_bp(lexer, 0);
+                        mhs.borrow_mut().add_child(rhs);
+                        loop {
+                            if let TokenKind::COMMA = lexer.nth_token(1) {
+                                lexer.next_token();
+                                let child = expression_bp(lexer, r_bp);
+                                mhs.borrow_mut().add_child(child.clone());
+                                if child.is_none() || TreeNode::check_bp(&child) {
+                                    break;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
                         if let R_PAREN = lexer.next_token() {
                         } else {
                             let err =
                                 format!("INEXPRESION,missing ) ,you are {}", lexer.get_prev());
-                            &rhs.as_ref()
-                                .unwrap()
-                                .borrow_mut()
+                            mhs.borrow_mut()
                                 .add_syntax_child(SyntaxKind::ERROR_STATE(err));
                             break;
                         }
-                        mhs.borrow_mut().add_child(rhs);
                         lhs = Some(mhs);
                     }
                     LENGTH_KW => {
@@ -879,53 +910,26 @@ fn expression_bp(lexer: &mut Lexer, min_bp: u8) -> Option<Rc<RefCell<TreeNode>>>
                         mhs.borrow_mut().add_child(lhs);
                         lhs = Some(mhs);
                     }
-                    _ => panic!("missing token!"),
+                    _ => {
+                        let err = format!(
+                            "In expression qute|length,missing [ident]|[LENGTH_KW],you are {}",
+                            lexer.get_prev()
+                        );
+                        lhs = Some(Rc::new(RefCell::new(TreeNode::new(
+                            SyntaxKind::ERROR_STATE(err),
+                        ))));
+                    }
                 }
-
-                if let TokenKind::COMMA = lexer.nth_token(1) {
-                    lexer.next_token();
-                    let sibling = expression_bp(lexer, r_bp);
-                    &lhs.as_ref().unwrap().borrow_mut().add_sibling(sibling);
-                } else {
-                    let err = format!("INEXPRESION,missing , ,you are {}", lexer.get_prev());
-                    &lhs.as_ref()
-                        .unwrap()
-                        .borrow_mut()
-                        .add_syntax_child(SyntaxKind::ERROR_STATE(err));
-                    break;
-                }
-
-                let rhs = expression_bp(lexer, r_bp);
+            } else {
                 let mhs = Rc::new(RefCell::new(TreeNode::new(token2syntax(lexer))));
+                let rhs = expression_bp(lexer, r_bp);
                 mhs.borrow_mut().add_child(lhs);
                 mhs.borrow_mut().add_child(rhs);
                 lhs = Some(mhs);
-                continue;
             }
+            continue;
         }
         break;
     }
     lhs
-}
-
-fn type_token_kind(lexer: &mut Lexer) -> SyntaxKind {
-    match lexer.next_token() {
-        INT_KW => {
-            if let L_BRACK = lexer.nth_token(1) {
-                lexer.next_token();
-                if let R_BRACK = lexer.next_token() {
-                } else {
-                    let err = format!("error");
-                    lexer.push_eof();
-                    return SyntaxKind::ERROR_STATE(err);
-                }
-                SyntaxKind::TYPE_INT_ARRAY
-            } else {
-                SyntaxKind::TYPE_INT
-            }
-        }
-        BOOLEAN_KW => SyntaxKind::TYPE_BOOLEAN,
-        IDENT(id) => SyntaxKind::TYPE_IDENT(id),
-        _ => panic!("missing type"),
-    }
 }

@@ -1,0 +1,18 @@
+GOAL
+  MAIN_CLASS
+    IDENT("WhatHappen")
+    IDENT("args")
+    TYPE_IDENT("MyClient")
+      IDENT("mc")
+    TYPE_INT
+      IDENT("handle")
+    ASSIGN_STATE
+      IDENT("mc")
+      NEW_CLASS_EXPRESION
+        IDENT("MyClient")
+    WHILE_STATE
+      EXCL_EXPRESSION
+        FALSE_KW
+    ERROR_STATE("in MAINCLASS,missing },you are ;")
+  ERROR_STATE("No Class Declaration!")
+  ERROR_STATE("In goal part,missing EOF ,you are }")

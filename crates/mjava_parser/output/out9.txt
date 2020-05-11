@@ -6,5 +6,20 @@ GOAL
       IDENT("mc")
     TYPE_INT
       IDENT("handle")
-    ERROR_STATE("in MAINCLASS,missing },you are identifier: mc")
+    ASSIGN_STATE
+      IDENT("mc")
+      NEW_CLASS_EXPRESION
+        IDENT("MyClient")
+    WHILE_STATE
+      EXCL_EXPRESSION
+        FALSE_KW
+      BLOCK_STATE
+        ASSIGN_STATE
+          IDENT("handle")
+          QUOTE_EXPRESSION
+            IDENT("mc")
+            IDENT("start")
+            INT("10")
+            INT("10")
   ERROR_STATE("No Class Declaration!")
+  ERROR_STATE("In goal part,missing EOF ,you are identifier: Client")
