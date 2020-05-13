@@ -1,6 +1,7 @@
 extern crate mjava_scanner;
 use mjava_scanner::Token;
 use mjava_scanner::TokenKind;
+use std::fmt;
 pub struct Lexer {
     tokens: Vec<Token>,
     pos: usize,
@@ -35,7 +36,5 @@ impl Lexer {
     pub fn get_prev(&self)->TokenKind{
         self.prev.clone()
     }
-    // pub fn clear(&mut self){
-    //     self.tokens.clear();
-    // }
+    
 }
